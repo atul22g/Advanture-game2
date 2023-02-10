@@ -55,6 +55,4 @@ const anims = {
         'idle-right': { from: 143, to: 143 },
     }
 }
-
-
-module.exports = { mergeImg, anims }
+module.exports = { mergeImg, anims}

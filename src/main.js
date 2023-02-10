@@ -1,11 +1,8 @@
 import kaboom from "kaboom"
-// import {addPlayer} from "./person"
-import {addBackground} from "./background"
+import {addBackground} from "./game/background"
 
 
 kaboom({
     background: [132,198,105]
 })
-
-// addPlayer()
 addBackground()

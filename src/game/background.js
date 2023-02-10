@@ -1,70 +1,12 @@
-import { mergeImg, anims } from "./allFunc"
+import { AddMap } from "../uploads/Map1"
+import { AddPerson } from "../uploads/person"
 const addBackground = () => {
     // Variables
     let SPEED = 120
 
-    const playerAnims = {
-        player: anims
-    };
-
-    const corpusAnims = {
-        corpus: anims
-    };
-
-    loadSpriteAtlas("sprites/person/spritemerge_corpus.png", corpusAnims)
-    // load and merge body and leather armor 
-    mergeImg(["sprites/person/spritemerge_corpus.png", "sprites/person/spritemerge_chest.png"]).then((img) =>
-        loadSpriteAtlas(img, playerAnims)
-    );
-
-    loadSpriteAtlas("sprites/map.png", {
-        // (x) left - right
-        // (y) top - bottom
-        // Big green Tree
-        "BGT": {
-            "x": 260,
-            "y": 0,
-            "width": 50,
-            "height": 128
-        },
-        // Big green Tree
-        "SGT": {
-            "x": 260,
-            "y": 123.5,
-            "width": 50,
-            "height": 68
-        },
-        // Grass
-        "grass": {
-            "x": 320,
-            "y": 0,
-            "width": 70,
-            "height": 68
-        },
-        // Small Grass
-        "sGrass": {
-            "x": 320,
-            "y": 70,
-            "width": 70,
-            "height": 65
-        },
-        // Masroom
-        "Masroom": {
-            "x": 320,
-            "y": 123.5,
-            "width": 70,
-            "height": 68
-        },
-        // flower
-        "flower": {
-            "x": 128,
-            "y": 0,
-            "width": 30,
-            "height": 40
-        },
-    })
-
-    // objects
+    AddMap()
+    AddPerson()
+    // Map
     const map = addLevel([
         "",
         "",
@@ -75,14 +17,25 @@ const addBackground = () => {
         "",
         "",
         "",
-        "         F",
+        "      l",
     ], {
         width: 16,
         height: 16,
-        // Tree
+        // ✔  Tree
         "T": () => [
             sprite("BGT"),
             area(),
+        ],
+        // ✔ Masroom
+        "m": () => [
+            sprite("Masroom"),
+            area({ height: 4, offset: vec2(0, 12) }),
+            solid(),
+        ],
+        // ✔ land
+        "l": () => [
+            sprite("land"),
+            area({ height: 4, offset: vec2(0, 12) }),
             solid(),
         ],
         // Small Tree
@@ -103,20 +56,34 @@ const addBackground = () => {
             area({ height: 4, offset: vec2(0, 12) }),
             solid(),
         ],
-        // Masroom
-        "M": () => [
-            sprite("Masroom"),
-            area({ height: 4, offset: vec2(0, 12) }),
-            solid(),
-        ],
         // flower
         "F": () => [
             sprite("flower"),
             area({ height: 4, offset: vec2(0, 12) }),
             solid(),
         ],
+        // Grass2
+        "v": () => [
+            sprite("grass2"),
+            area({ height: 4, offset: vec2(0, 12) }),
+            solid(),
+        ],
+        // Grass3
+        "*": () => [
+            sprite("grass3"),
+            area({ height: 4, offset: vec2(0, 12) }),
+            solid(),
+        ],
+        // ground
+        "[": () => [
+            sprite("ground"),
+            area({ height: 4, offset: vec2(0, 12) }),
+            // solid(),
+        ],
     })
 
+
+    // Add Player
     const player = add([
         sprite('player'),
         pos(map.getPos(2, 2)),
@@ -124,26 +91,6 @@ const addBackground = () => {
         solid(),
         origin("center"),
     ])
-
-
-    function spin() {
-        let spinning = false
-        return {
-            id: "spin",
-            update() {
-                if (spinning) {
-                    this.angle += 1200 * dt()
-                    if (this.angle >= 360) {
-                        this.angle = 0
-                        spinning = false
-                    }
-                }
-            },
-            spin() {
-                spinning = true
-            },
-        }
-    }
 
     player.play("idle-down")
 
@@ -184,9 +131,6 @@ const addBackground = () => {
             player.play(type + '-' + DIRECTION, { loop: true });
         }
     }
-
-
-
 }
 
 module.exports = { addBackground }
